@@ -10,6 +10,14 @@ import (
 	"unicode"
 )
 
+func ExampleClone() {
+	fmt.Println(strings.Clone(""))
+	fmt.Println(strings.Clone("abc"))
+	// Output:
+	//
+	// abc
+}
+
 func ExampleBuilder() {
 	var b strings.Builder
 	for i := 3; i >= 1; i-- {
@@ -91,6 +99,30 @@ func ExampleCut() {
 	// Cut("Gopher", "ph") = "Go", "er", true
 	// Cut("Gopher", "er") = "Goph", "", true
 	// Cut("Gopher", "Badger") = "Gopher", "", false
+}
+
+func ExampleCutPrefix() {
+	show := func(s, sep string) {
+		after, found := CutPrefix(s, sep)
+		fmt.Printf("CutPrefix(%q, %q) = %q, %v\n", s, sep, after, found)
+	}
+	show("Gopher", "Go")
+	show("Gopher", "ph")
+	// Output:
+	// CutPrefix("Gopher", "Go") = "pher", true
+	// CutPrefix("Gopher", "ph") = "Gopher", false
+}
+
+func ExampleCutSuffix() {
+	show := func(s, sep string) {
+		before, found := CutSuffix(s, sep)
+		fmt.Printf("CutSuffix(%q, %q) = %q, %v\n", s, sep, before, found)
+	}
+	show("Gopher", "Go")
+	show("Gopher", "er")
+	// Output:
+	// CutSuffix("Gopher", "Go") = "Gopher", false
+	// CutSuffix("Gopher", "er") = "Goph", true
 }
 
 func ExampleEqualFold() {
@@ -401,4 +433,12 @@ func ExampleTrimRightFunc() {
 		return !unicode.IsLetter(r) && !unicode.IsNumber(r)
 	}))
 	// Output: ¡¡¡Hello, Gophers
+}
+
+func ExampleToValidUTF8() {
+	fmt.Println(strings.ToValidUTF8("Hello, Gophers!!!", " "))    // There is no invalid UTF-8 character
+	fmt.Println(strings.ToValidUTF8("Hello, \xff", "Gophers!!!")) // Invalid UTF-8 '\xff' replaced by 'Gophers!!!'
+	// Output:
+	// Hello, Gophers!!!
+	// Hello, Gophers!!!
 }
