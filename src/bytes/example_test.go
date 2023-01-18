@@ -110,6 +110,14 @@ func ExampleBuffer_ReadByte() {
 	// bcde
 }
 
+func ExampleClone() {
+	fmt.Printf("%s\n", bytes.Clone([]byte{}))
+	fmt.Printf("%s\n", bytes.Clone([]byte("abc")))
+	// Output:
+	//
+	// abc
+}
+
 func ExampleCompare() {
 	// Interpret Compare's result by comparing it to zero.
 	var a, b []byte
@@ -208,6 +216,30 @@ func ExampleCut() {
 	// Cut("Gopher", "ph") = "Go", "er", true
 	// Cut("Gopher", "er") = "Goph", "", true
 	// Cut("Gopher", "Badger") = "Gopher", "", false
+}
+
+func ExampleCutPrefix() {
+	show := func(s, sep string) {
+		after, found := bytes.CutPrefix([]byte(s), []byte(sep))
+		fmt.Printf("CutPrefix(%q, %q) = %q, %v\n", s, sep, after, found)
+	}
+	show("Gopher", "Go")
+	show("Gopher", "ph")
+	// Output:
+	// CutPrefix("Gopher", "Go") = "pher", true
+	// CutPrefix("Gopher", "ph") = "Gopher", false
+}
+
+func ExampleCutSuffix() {
+	show := func(s, sep string) {
+		before, found := bytes.CutSuffix([]byte(s), []byte(sep))
+		fmt.Printf("CutSuffix(%q, %q) = %q, %v\n", s, sep, before, found)
+	}
+	show("Gopher", "Go")
+	show("Gopher", "er")
+	// Output:
+	// CutSuffix("Gopher", "Go") = "Gopher", false
+	// CutSuffix("Gopher", "er") = "Goph", true
 }
 
 func ExampleEqual() {
@@ -347,6 +379,22 @@ func ExampleLastIndexFunc() {
 	// -1
 }
 
+func ExampleMap() {
+	f := func(r rune) rune {
+		const step = 13
+		if r >= 'a' && r <= 'z' {
+			return ((r - 'a' + step) % 26) + 'a'
+		}
+		if r >= 'A' && r <= 'Z' {
+			return ((r - 'A' + step) % 26) + 'A'
+		}
+		return r
+	}
+	fmt.Printf("%s\n", bytes.Map(f, []byte("a to zed")))
+	// Output:
+	// n gb mrq
+}
+
 func ExampleReader_Len() {
 	fmt.Println(bytes.NewReader([]byte("Hi!")).Len())
 	fmt.Println(bytes.NewReader([]byte("こんにちは!")).Len())
@@ -443,6 +491,14 @@ func ExampleToTitleSpecial() {
 	// Output:
 	// Original : ahoj vývojári golang
 	// ToTitle : AHOJ VÝVOJÁRİ GOLANG
+}
+
+func ExampleToValidUTF8() {
+	fmt.Printf("%s\n", bytes.ToValidUTF8([]byte("Hello, Gophers!!!"), []byte{}))
+	fmt.Printf("%s\n", bytes.ToValidUTF8([]byte("Hello, \xff"), []byte("Gophers!!!")))
+	// Output:
+	// Hello, Gophers!!!
+	// Hello, Gophers!!!
 }
 
 func ExampleTrim() {
