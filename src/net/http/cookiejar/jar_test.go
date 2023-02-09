@@ -670,7 +670,7 @@ var updateAndDeleteTests = [...]jarTest{
 		},
 	},
 	{
-		"Clear Secure flag from a http.",
+		"Clear Secure flag from an http.",
 		"http://www.host.test/",
 		[]string{
 			"b=xx",

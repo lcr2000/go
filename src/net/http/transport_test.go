@@ -3893,7 +3893,7 @@ func TestTransportCloseIdleConnsThenReturn(t *testing.T) {
 }
 
 // Test for issue 34282
-// Ensure that getConn doesn't call the GotConn trace hook on a HTTP/2 idle conn
+// Ensure that getConn doesn't call the GotConn trace hook on an HTTP/2 idle conn
 func TestTransportTraceGotConnH2IdleConns(t *testing.T) {
 	tr := &Transport{}
 	wantIdle := func(when string, n int) bool {
@@ -4974,7 +4974,7 @@ func testTLSHandshakeTrace(t *testing.T, mode testMode) {
 		t.Fatal("Expected TLSHandshakeStart to be called, but wasn't")
 	}
 	if !done {
-		t.Fatal("Expected TLSHandshakeDone to be called, but wasnt't")
+		t.Fatal("Expected TLSHandshakeDone to be called, but wasn't")
 	}
 }
 

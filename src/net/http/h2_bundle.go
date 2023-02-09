@@ -6183,7 +6183,7 @@ type http2requestBody struct {
 	conn          *http2serverConn
 	closeOnce     sync.Once  // for use by Close only
 	sawEOF        bool       // for use by Read only
-	pipe          *http2pipe // non-nil if we have a HTTP entity message body
+	pipe          *http2pipe // non-nil if we have an HTTP entity message body
 	needsContinue bool       // need to send a 100-continue
 }
 
